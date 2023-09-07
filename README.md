@@ -1,6 +1,14 @@
 # BashSetup
 Sets up a bash environment to Anthony D'Alesandro's Liking.
 
+# Idea
+Have a interface for changes made to system
+- has a build()
+- has a breakdown()
+in build, it adds folders or whatever and breakdown undoes that change.
+
+Allows the system to quickly be torn down for testing...
+
 # Folders
 - programs
     - unity

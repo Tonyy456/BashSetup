@@ -1,0 +1,11 @@
+assets          
+libs            
+resources       
+backups         
+projects        
+scripts         
+tools
+commands        
+repositories    
+snippets        
+trash

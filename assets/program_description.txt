@@ -1,0 +1,7 @@
+
+What does this program do?
+
+- Set up a folder in your root path
+- Creates a folder structure that allows you to organize
+- Adds custom commands (this can be disabled)
+- Sets up omgzsh if you want it
