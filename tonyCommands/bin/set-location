@@ -1,0 +1,57 @@
+#!/bin/bash
+
+setPathPy=$TONY_COMMANDS_DIR/src/set.py
+removePy=$TONY_COMMANDS_DIR/src/remove_key.py
+
+filename=$(basename "$0")
+
+remove_last() {
+    path=$0
+    echo "${path%/*}/"
+}
+
+function usage {
+    echo "Usage: $filename [key]"
+    echo "       $filename -d [key]"
+    echo "       $filename -list"
+}
+
+
+my_set() {
+    if [ "$#" -eq 0 ]; then
+        usage 
+    elif [ "$1" = "-list" ] && [ "$#" -eq 1 ]; then
+        list_keys
+    elif [ "$1" = "-d" ] && [ "$#" -eq 2 ]; then
+        remove_key "$2"
+    elif [ "$#" -eq 1 ]; then
+        set_key "$1"
+    else
+        usage 
+    fi
+}
+
+
+list_keys() {
+    echo "==========$TONY_SAVE_PATH=========="
+    cat $TONY_SAVE_PATH 
+}
+
+remove_key() {
+    output=$(python3 $removePy $TONY_SAVE_PATH $1)
+    if [[ "$output" == *"#ERROR"* ]]; then
+        echo "Oops!"
+    else
+        echo cd "$output"
+    fi
+}
+
+set_key() {
+    path_to_save=$(pwd)
+    output=$(python3 $setPathPy $TONY_SAVE_PATH $1 $path_to_save)
+    if [[ "$output" == *"#ERROR"* ]]; then
+        echo "Oops!"
+    fi
+}
+
+my_set "$@"

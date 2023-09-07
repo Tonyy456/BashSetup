@@ -1,0 +1,49 @@
+#!/bin/bash
+
+getPathPy=$TONY_COMMANDS_DIR/src/getPath.py
+removePy=$TONY_COMMANDS_DIR/src/remove_key.py
+
+function usage {
+    echo "Usage: jump [key]"
+    echo "       jump -d [key]"
+    echo "       jump -list"
+}
+
+
+my_jump() {
+    if [ "$#" -eq 0 ]; then
+        usage 
+    elif [ "$1" = "-list" ] && [ "$#" -eq 1 ]; then
+        list_keys
+    elif [ "$1" = "-d" ] && [ "$#" -eq 2 ]; then
+        remove_key "$2"
+    elif [ "$#" -eq 1 ]; then
+        jump_to_key "$1"
+    else
+        usage 
+    fi
+}
+
+
+list_keys() {
+    echo "------$TONY_SAVE_PATH------"
+    cat $TONY_SAVE_PATH 
+}
+
+remove_key() {
+    output=$(python3 $removePy $TONY_SAVE_PATH $1)
+    if [[ "$output" == *"#ERROR"* ]]; then
+        echo "Oops!"
+    fi
+}
+
+jump_to_key() {
+    output=$(python3 $getPathPy $TONY_SAVE_PATH $1)
+    if [[ "$output" == *"#ERROR"* ]]; then
+        echo "Oops!"
+    else
+       source cd $output
+    fi
+}
+
+my_jump "$@"
